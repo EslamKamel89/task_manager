@@ -8,11 +8,15 @@ use App\Http\Resources\TaskCollection;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller {
 	public function index() {
-		// return response()->json( Task::all() );
-		return new TaskCollection( Task::all() );
+
+		$tasks = QueryBuilder::for( Task::class)
+			->allowedFilters( 'is_done' )
+			->paginate( 10 );
+		return new TaskCollection( $tasks );
 	}
 
 	public function store( StoreTaskRequest $request ) {
@@ -26,10 +30,14 @@ class TaskController extends Controller {
 	}
 
 	public function update( UpdateTaskRequest $request, Task $task ) {
-		//
+		$validated = $request->validated();
+		// dump( $validated, $request->all() );
+		$task->update( $validated );
+		return new TaskResource( $task );
 	}
 
-	public function destroy( string $id ) {
-		//
+	public function destroy( Task $task ) {
+		$task->delete();
+		return response()->noContent();
 	}
 }

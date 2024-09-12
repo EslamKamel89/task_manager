@@ -12,10 +12,10 @@ class Task extends Model {
 		'title',
 		'is_done',
 	];
+	//! casts
 	protected $casts = [
 		'is_done' => 'boolean',
 	];
-	//! casts
 	protected $hidden = [
 		'updated_at',
 		'created_at',
@@ -23,7 +23,7 @@ class Task extends Model {
 	//! mutators
 	public function isDone(): Attribute {
 		return Attribute::make(
-			get: fn( $value ) => $value,
+			get: fn( $value ) => $value == 0 ? false : true,
 			set: function ($value) {
 				if ( $value == 'true' ) {
 					return true;
