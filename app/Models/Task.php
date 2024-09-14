@@ -5,18 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Task extends Model {
 	use HasFactory;
-	protected $fillable = [
+	protected $fillable = [ 
+		'creater_id',
 		'title',
 		'is_done',
 	];
 	//! casts
-	protected $casts = [
+	protected $casts = [ 
 		'is_done' => 'boolean',
 	];
-	protected $hidden = [
+	protected $hidden = [ 
 		'updated_at',
 		'created_at',
 	];
@@ -34,5 +36,10 @@ class Task extends Model {
 				}
 			},
 		);
+	}
+
+	//! Relationships
+	public function creator(): BelongsTo {
+		return $this->belongsTo( User::class, 'creater_id', );
 	}
 }

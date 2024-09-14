@@ -6,14 +6,22 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TaskResource extends JsonResource {
-	/**
-	 * Transform the resource into an array.
-	 *
-	 * @return array<string, mixed>
-	 */
+	public static $wrap = null;
+
 	public function toArray( Request $request ): array {
-		$data = parent::toArray( $request );
-		$data['status'] = $this->is_done ? 'finished' : 'open';
-		return $data;
+
+		return [ 
+			'createrId' => $this->creater_id,
+			'createrName' => $this->creator->name,
+			'title' => $this->title,
+			'isDone' => $this->is_done,
+		];
+
+
+		// $data = parent::toArray( $request );
+		// $data['status'] = $this->is_done ? 'finished' : 'open';
+		// $data['creatorName'] = $this->creator->name;
+		// return $data;
 	}
+
 }
