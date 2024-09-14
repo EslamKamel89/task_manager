@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Traits\CustomJsonResonse;
+use App\Helpers\CustomJsonResponse;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider {
@@ -17,8 +17,8 @@ class AppServiceProvider extends ServiceProvider {
 	 * Bootstrap any application services.
 	 */
 	public function boot(): void {
-		$this->app->singleton( CustomJsonResonse::class, function () {
-			return new CustomJsonResonse();
+		$this->app->singleton( CustomJsonResponse::class, function () {
+			return new CustomJsonResponse();
 		} );
 	}
 }

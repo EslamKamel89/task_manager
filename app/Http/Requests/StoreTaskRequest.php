@@ -18,9 +18,9 @@ class StoreTaskRequest extends FormRequest {
 	 * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
 	 */
 	public function rules(): array {
-		return [
+		return [ 
 			'title' => [ 'required', 'max:255' ],
-			'is_done' => [ 'sometimes', 'boolean' ]
+			'is_done' => [ 'sometimes' ]
 		];
 	}
 }

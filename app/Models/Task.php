@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Builder;
 
 class Task extends Model {
 	use HasFactory;
@@ -41,5 +42,15 @@ class Task extends Model {
 	//! Relationships
 	public function creator(): BelongsTo {
 		return $this->belongsTo( User::class, 'creater_id', );
+	}
+
+	protected static function booted(): void {
+		//! Global Scopes
+		static::addGlobalScope(
+			'creator',
+			function (Builder $query) {
+				$query->where( 'creater_id', '=', auth()->id() );
+			}
+		);
 	}
 }

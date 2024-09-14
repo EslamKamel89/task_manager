@@ -1,6 +1,7 @@
 <?php
 
-use App\Traits\CustomJsonResonse;
+use App\Helpers\CustomJsonResponse;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -20,11 +21,14 @@ return Application::configure( basePath: dirname( __DIR__ ) )
 	} )
 	->withExceptions( function (Exceptions $exceptions) {
 		$exceptions->render( function (NotFoundHttpException $e) {
-			return App::make( CustomJsonResonse::class)->failure( 'Resource Not Found' );
+			return App::make( CustomJsonResponse::class)->failure( 'Resource Not Found' );
 		} );
 		$exceptions->render( function (ValidationException $e) {
 			// dump( $e, get_class_methods( $e ) );
-			return App::make( CustomJsonResonse::class)->failure( 'Validation Failure', $e->errors(), 422 );
+			return App::make( CustomJsonResponse::class)->failure( 'Validation Failure', $e->errors(), 422 );
+		} );
+		$exceptions->render( function (AuthenticationException $e) {
+			return App::make( CustomJsonResponse::class)->failure( 'Unauthenticated User', statusCode: 401 );
 		} );
 	} )->create();
 // success( $data, $statusCode = 200, $status = 'success', $message = 'success', $errors = [], $pagination = false ) {

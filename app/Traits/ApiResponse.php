@@ -35,6 +35,4 @@ trait ApiResponse {
 
 }
 
-class CustomJsonResonse {
-	use ApiResponse;
-}
+
