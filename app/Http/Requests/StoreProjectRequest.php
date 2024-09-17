@@ -3,11 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-use Illuminate\Database\Query\Builder;
 
-
-class StoreTaskRequest extends FormRequest {
+class StoreProjectRequest extends FormRequest {
 	/**
 	 * Determine if the user is authorized to make this request.
 	 */
@@ -22,15 +19,7 @@ class StoreTaskRequest extends FormRequest {
 	 */
 	public function rules(): array {
 		return [
-			'title' => [ 'required', 'max:255' ],
-			'is_done' => [ 'sometimes' ],
-			'project_id' => [
-				'nullable',
-				Rule::exists( 'projects', 'id' )
-					->where( function (Builder $query) {
-						return $query->where( 'creator_id', auth()->id() );
-					} )
-			],
+			'title' => [ 'required', 'min:2', 'max:255' ],
 		];
 	}
 }

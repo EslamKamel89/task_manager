@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateTaskRequest extends FormRequest {
 	/**
@@ -20,7 +22,14 @@ class UpdateTaskRequest extends FormRequest {
 	public function rules(): array {
 		return [
 			'title' => [ 'sometimes', 'required', 'max:255' ],
-			'is_done' => [ 'sometimes', 'boolean' ]
+			'is_done' => [ 'sometimes', 'boolean' ],
+			'project_id' => [
+				'nullable',
+				Rule::exists( 'projects', 'id' )
+					->where( function (Builder $query) {
+						return $query->where( 'creator_id', auth()->id() );
+					} )
+			],
 		];
 	}
 }

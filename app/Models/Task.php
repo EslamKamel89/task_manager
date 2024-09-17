@@ -10,16 +10,17 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Task extends Model {
 	use HasFactory;
-	protected $fillable = [ 
+	protected $fillable = [
 		'creater_id',
 		'title',
 		'is_done',
+		'project_id'
 	];
 	//! casts
-	protected $casts = [ 
+	protected $casts = [
 		'is_done' => 'boolean',
 	];
-	protected $hidden = [ 
+	protected $hidden = [
 		'updated_at',
 		'created_at',
 	];
@@ -44,6 +45,9 @@ class Task extends Model {
 		return $this->belongsTo( User::class, 'creater_id', );
 	}
 
+	public function project(): BelongsTo {
+		return $this->belongsTo( Project::class);
+	}
 	protected static function booted(): void {
 		//! Global Scopes
 		static::addGlobalScope(
@@ -53,4 +57,5 @@ class Task extends Model {
 			}
 		);
 	}
+
 }
