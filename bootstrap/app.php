@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Support\Facades\App;
 
@@ -29,6 +30,9 @@ return Application::configure( basePath: dirname( __DIR__ ) )
 		} );
 		$exceptions->render( function (AuthenticationException $e) {
 			return App::make( CustomJsonResponse::class)->failure( 'Unauthenticated User', statusCode: 401 );
+		} );
+		$exceptions->render( function (AccessDeniedHttpException $e) {
+			return App::make( CustomJsonResponse::class)->failure( 'This action is unauthorized.', statusCode: 403 );
 		} );
 	} )->create();
 // success( $data, $statusCode = 200, $status = 'success', $message = 'success', $errors = [], $pagination = false ) {

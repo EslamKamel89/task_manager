@@ -34,6 +34,7 @@ class Project extends Model {
 	//! Global Scopes
 	protected static function booted(): void {
 		static::addGlobalScope( 'creator', function (Builder $query) {
+			return;
 			$query->where( 'creator_id', auth()->id() );
 		} );
 	}

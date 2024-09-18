@@ -14,9 +14,10 @@ class ProjectResource extends JsonResource {
 	public function toArray( Request $request ): array {
 		return [ 
 			'title' => $this->title,
-			'creatorName' => $this->creator->name,
 			'created_at' => $this->created_at,
+			'creator' => new UserResource( $this->whenLoaded( 'creator' ) ),
 			'tasks' => new TaskCollection( $this->whenLoaded( 'tasks' ) ),
+			'members' => UserResource::collection( $this->whenLoaded( 'members' ) ),
 		];
 	}
 }

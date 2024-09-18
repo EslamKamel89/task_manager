@@ -55,20 +55,7 @@ class User extends Authenticatable {
 		return $this->hasMany( Project::class, 'creator_id' );
 	}
 
-	/**
-	 * Define a many-to-many relationship.
-	 *
-	 * @template TRelatedModel of \Illuminate\Database\Eloquent\Model
-	 *
-	 * @param  class-string<TRelatedModel>  $related
-	 * @param  string|class-string<\Illuminate\Database\Eloquent\Model>|null  $table
-	 * @param  string|null  $foreignPivotKey
-	 * @param  string|null  $relatedPivotKey
-	 * @param  string|null  $parentKey
-	 * @param  string|null  $relatedKey
-	 * @param  string|null  $relation
-	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<TRelatedModel, $this>
-	 */
+
 	public function memeberProjects(): BelongsToMany {
 		return $this->belongsToMany(
 			Project::class,

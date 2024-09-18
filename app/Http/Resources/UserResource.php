@@ -15,7 +15,7 @@ class UserResource extends JsonResource {
 		return [ 
 			'name' => $this->name,
 			'email' => $this->email,
-			'tasks' => new TaskCollection( $this->tasks ),
+			'tasks' => new TaskCollection( $this->whenLoaded( 'tasks' ) ),
 		];
 	}
 }
