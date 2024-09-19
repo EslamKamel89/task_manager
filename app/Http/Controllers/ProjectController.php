@@ -25,6 +25,7 @@ class ProjectController extends Controller {
 			->allowedFilters( [] )
 			->defaultSort( '-created_at' )
 			->allowedSorts( [ 'created_at', 'title', 'creator_id' ] )
+			// ->creator()
 			->paginate( 10 );
 		return $this->success(
 			new ProjectCollection( $projects ),

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Observers\ProjectObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,9 +11,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+
+#[ObservedBy([ ProjectObserver::class]) ]
 class Project extends Model {
 	use HasFactory;
-	protected $fillable = [ 
+	protected $fillable = [
 		'creator_id',
 		'title',
 	];
@@ -34,9 +38,13 @@ class Project extends Model {
 	//! Global Scopes
 	protected static function booted(): void {
 		static::addGlobalScope( 'creator', function (Builder $query) {
+			$query->whereRelation( 'members', 'users.id', '=', auth()->id() );
 			return;
-			$query->where( 'creator_id', auth()->id() );
 		} );
 	}
 
+	//! Local Scope
+	public function scopeCreator( Builder $query ): void {
+		$query->where( 'creator_id', auth()->id() );
+	}
 }
