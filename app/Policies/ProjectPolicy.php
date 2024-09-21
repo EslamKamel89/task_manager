@@ -36,13 +36,14 @@ class ProjectPolicy {
 	 */
 	public function update( User $user, Project $project ): bool {
 		//
+		return $user->id == $project->creator_id;
 	}
 
 	/**
 	 * Determine whether the user can delete the model.
 	 */
 	public function delete( User $user, Project $project ): bool {
-		//
+		return $user->id == $project->creator_id;
 	}
 
 	/**
@@ -50,12 +51,13 @@ class ProjectPolicy {
 	 */
 	public function restore( User $user, Project $project ): bool {
 		//
+		return false;
 	}
 
 	/**
 	 * Determine whether the user can permanently delete the model.
 	 */
 	public function forceDelete( User $user, Project $project ): bool {
-		//
+		return false;
 	}
 }
